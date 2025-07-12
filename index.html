@@ -7,99 +7,38 @@
 
     <!-- CSS 코드가 여기에 통합됩니다 -->
     <style>
-        /* 기본 스타일 */
         body {
-            font-family: 'Malgun Gothic', sans-serif;
-            text-align: center;
-            background-color: #333;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Malgun Gothic', sans-serif; text-align: center; background-color: #333;
+            color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
         }
-
-        #game-title h1 {
-            margin: 0;
-            color: #4CAF50;
-        }
-
-        #game-title p {
-            margin: 5px 0 20px 0;
-            font-size: 1.1em;
-        }
-
-        /* 게임 컨테이너: 방 배경 이미지 */
+        #game-title h1 { margin: 0; color: #4CAF50; }
+        #game-title p { margin: 5px 0 20px 0; font-size: 1.1em; }
         #game-container {
-            position: relative;
-            width: 90vw;
-            max-width: 1000px;
-            height: 67.5vw; /* 4:3 비율 */
-            max-height: 750px;
+            position: relative; width: 90vw; max-width: 1000px; height: 67.5vw; max-height: 750px;
             background: url('https://i.ibb.co/7drcWR59/Whisk-7231fd014e.jpg') no-repeat center center;
-            background-size: cover;
-            border: 3px solid #777;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            background-size: cover; border: 3px solid #777; box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
         }
-
-        /* 클릭 가능한 오브젝트 영역 */
         .clickable-object {
-            position: absolute;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            /* [개발 팁] 아래 한 줄의 주석을 풀어 위치를 확인하세요! */
+            position: absolute; cursor: pointer; transition: background-color 0.3s;
+            /* [개발 팁] 아래 코드의 주석을 풀면 위치(빨간 점선)가 보입니다 */
             /* border: 2px dashed red; */
         }
-
-        .clickable-object:hover {
-            background-color: rgba(255, 255, 0, 0.3);
-        }
-
-        /* 최종 비밀번호 입력 구간 */
+        .clickable-object:hover { background-color: rgba(255, 255, 0, 0.3); }
         #final-escape {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #222;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
+            margin-top: 25px; padding: 20px; background-color: #222;
+            border-radius: 10px; width: 90%; max-width: 600px;
         }
-
-        #final-escape input, #final-escape button {
-            font-size: 1.2em;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
+        #final-escape input, #final-escape button { font-size: 1.2em; padding: 10px; border-radius: 5px; }
         #final-escape input { width: 60%; border: 2px solid #ccc; }
         #final-escape button { cursor: pointer; background-color: #4CAF50; color: white; border: none; }
-
-        /* 모달 스타일 */
         #modal-container {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center;
         }
-
         .modal-content {
-            background-color: #fefefe;
-            color: #333;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            background-color: #fefefe; color: #333; padding: 30px; border-radius: 10px;
+            width: 90%; max-width: 500px; text-align: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
-
         .modal-content h2 { margin-top: 0; }
         .modal-content input { padding: 10px; font-size: 1em; margin: 10px 5px; }
         .modal-content button { padding: 10px 20px; font-size: 1em; cursor: pointer; border-radius: 5px; border: none; }
@@ -114,36 +53,35 @@
         <p>제한 시간 안에 박사님의 단서를 찾아 랩톱을 잠금 해제하세요!</p>
     </div>
 
-    <!-- 게임 화면 -->
     <div id="game-container">
-        <!-- 클릭 가능한 오브젝트들의 위치와 크기는 이 곳에서 조절합니다. -->
         <div class="clickable-object" id="flasks" style="top: 23%; left: 45%; width: 18%; height: 15%;"></div>
         <div class="clickable-object" id="microscope" style="top: 48%; left: 14%; width: 12%; height: 25%;"></div>
         <div class="clickable-object" id="whiteboard" style="top: 25%; left: 70%; width: 23%; height: 18%;"></div>
     </div>
 
-    <!-- 최종 탈출구 (랩톱) -->
     <div id="final-escape">
         <h2>박사님의 랩톱</h2>
         <input type="password" id="final-password" placeholder="획득한 힌트를 순서대로 조합">
         <button id="escape-button">잠금 해제</button>
     </div>
 
-    <!-- 힌트/퍼즐을 보여줄 모달 (팝업창) -->
     <div id="modal-container">
         <div class="modal-content">
             <h2 id="modal-title"></h2>
-            <div id="modal-body">
-                <!-- 퍼즐 내용이 여기에 동적으로 추가됩니다 -->
-            </div>
+            <div id="modal-body"></div>
             <button class="close-button">닫기</button>
         </div>
     </div>
 
     <!-- JavaScript 코드가 여기에 통합됩니다 -->
     <script>
+        // DOMContentLoaded 이벤트는 HTML 문서가 완전히 로드되고 분석되었을 때 발생합니다.
+        // 스크립트가 HTML 요소보다 먼저 실행되어 발생하는 오류를 방지합니다.
         document.addEventListener('DOMContentLoaded', () => {
 
+            console.log("게임 스크립트 시작!"); // 디버깅 메시지
+
+            // 필수 HTML 요소들을 변수에 할당
             const gameContainer = document.getElementById('game-container');
             const modalContainer = document.getElementById('modal-container');
             const modalTitle = document.getElementById('modal-title');
@@ -152,20 +90,24 @@
             const escapeButton = document.getElementById('escape-button');
             const finalPasswordInput = document.getElementById('final-password');
 
+            // 게임 상태 객체
             const gameState = {
-                flasksHint: null,      // 1. 플라스크 힌트
-                microscopeHint: null,  // 2. 현미경 힌트
-                whiteboardHint: null   // 3. 화이트보드 힌트
+                flasksHint: null,
+                microscopeHint: null,
+                whiteboardHint: null
             };
 
+            // 오브젝트 클릭 이벤트 처리
             gameContainer.addEventListener('click', (event) => {
                 if (event.target.classList.contains('clickable-object')) {
-                    showPuzzle(event.target.id);
+                    const objectId = event.target.id;
+                    console.log(`오브젝트 클릭: ${objectId}`); // 디버깅 메시지
+                    showPuzzle(objectId);
                 }
             });
 
+            // 퍼즐 표시 함수
             function showPuzzle(objectId) {
-                // 이미 푼 문제는 다시 열리지 않도록 함
                 if ((objectId === 'flasks' && gameState.flasksHint) ||
                     (objectId === 'microscope' && gameState.microscopeHint) ||
                     (objectId === 'whiteboard' && gameState.whiteboardHint)) {
@@ -177,54 +119,37 @@
                 switch (objectId) {
                     case 'flasks':
                         modalTitle.textContent = '알록달록 화학 약품';
-                        puzzleHTML = `
-                            <p>선반 위 플라스크에는 빨강, 노랑, 파랑 액체가 있다.</p>
-                            <p>빛의 삼원색(빨강, 초록, 파랑)과 비교했을 때, 이곳에 없는 색은 총 몇 개인가?</p>
-                            <input type="text" id="quiz-answer" placeholder="숫자로 입력">
-                            <button class="submit-button" data-puzzle="flasks">확인</button>
-                        `;
+                        puzzleHTML = `<p>선반 위 플라스크에는 빨강, 노랑, 파랑 액체가 있다.</p><p>빛의 삼원색(빨강, 초록, 파랑)과 비교했을 때, 이곳에 없는 색은 총 몇 개인가?</p><input type="text" id="quiz-answer" placeholder="숫자로 입력"><button class="submit-button" data-puzzle="flasks">확인</button>`;
                         break;
                     case 'microscope':
                         modalTitle.textContent = '고성능 현미경';
-                        puzzleHTML = `
-                            <p>현미경 렌즈에는 10배, 40배, 100배율이 있다.</p>
-                            <p>이 배율 숫자들을 모두 더한 값은 얼마인가?</p>
-                            <input type="text" id="quiz-answer" placeholder="숫자로 입력">
-                            <button class="submit-button" data-puzzle="microscope">확인</button>
-                        `;
+                        puzzleHTML = `<p>현미경 렌즈에는 10배, 40배, 100배율이 있다.</p><p>이 배율 숫자들을 모두 더한 값은 얼마인가?</p><input type="text" id="quiz-answer" placeholder="숫자로 입력"><button class="submit-button" data-puzzle="microscope">확인</button>`;
                         break;
                     case 'whiteboard':
                         modalTitle.textContent = '미완성 연구 노트';
-                        puzzleHTML = `
-                            <p>화이트보드에 태양계 행성 순서가 그려져 있다.</p>
-                            <p>우리가 사는 '지구(Earth)'는 태양으로부터 몇 번째 행성일까?</p>
-                            <input type="text" id="quiz-answer" placeholder="숫자로 입력">
-                            <button class="submit-button" data-puzzle="whiteboard">확인</button>
-                        `;
+                        puzzleHTML = `<p>화이트보드에 태양계 행성 순서가 그려져 있다.</p><p>우리가 사는 '지구(Earth)'는 태양으로부터 몇 번째 행성일까?</p><input type="text" id="quiz-answer" placeholder="숫자로 입력"><button class="submit-button" data-puzzle="whiteboard">확인</button>`;
                         break;
                 }
                 modalBody.innerHTML = puzzleHTML;
                 modalContainer.style.display = 'flex';
             }
-
+            
+            // 정답 제출 버튼 클릭 이벤트 처리
             modalBody.addEventListener('click', (event) => {
                 if (event.target.classList.contains('submit-button')) {
                     const puzzleType = event.target.dataset.puzzle;
-                    const userAnswer = document.getElementById('quiz-answer').value.trim();
+                    const answerInput = document.getElementById('quiz-answer');
+                    const userAnswer = answerInput.value.trim();
+                    console.log(`정답 확인: ${puzzleType}, 제출 답: ${userAnswer}`); // 디버깅 메시지
+                    
                     let isCorrect = false;
 
                     if (puzzleType === 'flasks' && userAnswer === '1') {
-                        isCorrect = true;
-                        gameState.flasksHint = '1';
-                        alert('정답! 첫 번째 힌트 [1] 획득!');
+                        isCorrect = true; gameState.flasksHint = '1'; alert('정답! 첫 번째 힌트 [1] 획득!');
                     } else if (puzzleType === 'microscope' && userAnswer === '150') {
-                        isCorrect = true;
-                        gameState.microscopeHint = '150';
-                        alert('정답! 두 번째 힌트 [150] 획득!');
+                        isCorrect = true; gameState.microscopeHint = '150'; alert('정답! 두 번째 힌트 [150] 획득!');
                     } else if (puzzleType === 'whiteboard' && userAnswer === '3') {
-                        isCorrect = true;
-                        gameState.whiteboardHint = '3';
-                        alert('정답! 세 번째 힌트 [3] 획득!');
+                        isCorrect = true; gameState.whiteboardHint = '3'; alert('정답! 세 번째 힌트 [3] 획득!');
                     }
 
                     if (isCorrect) closeModal();
@@ -232,7 +157,9 @@
                 }
             });
 
+            // 최종 탈출 버튼 클릭 이벤트
             escapeButton.addEventListener('click', () => {
+                console.log("탈출 시도!"); // 디버깅 메시지
                 if (gameState.flasksHint && gameState.microscopeHint && gameState.whiteboardHint) {
                     const correctPassword = gameState.flasksHint + gameState.microscopeHint + gameState.whiteboardHint;
                     if (finalPasswordInput.value === correctPassword) {
@@ -245,10 +172,17 @@
                 }
             });
 
-            function closeModal() { modalContainer.style.display = 'none'; }
+            // 모달 닫기 함수
+            function closeModal() {
+                modalContainer.style.display = 'none';
+            }
             closeModalButton.addEventListener('click', closeModal);
-            modalContainer.addEventListener('click', (e) => { if (e.target === modalContainer) closeModal(); });
+            modalContainer.addEventListener('click', (e) => {
+                if (e.target === modalContainer) closeModal();
+            });
         });
     </script>
 </body>
 </html>
+
+   
